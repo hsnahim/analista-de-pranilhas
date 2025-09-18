@@ -1,9 +1,8 @@
 # --- Bloco de Importação de Bibliotecas ---
 import pandas as pd
 import matplotlib.pyplot as plt
-import re
 import os
-from tqdm import tqdm # Para a barra de progresso
+from tqdm import tqdm
 
 # --- Carregamento do Arquivo Excel ---
 try:
