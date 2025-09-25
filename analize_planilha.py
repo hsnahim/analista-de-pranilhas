@@ -6,9 +6,9 @@ from tqdm import tqdm
 
 # --- Carregamento do Arquivo Excel ---
 try:
-    xl_file = pd.ExcelFile('CONTROLE ESTACAO.xlsx')
+    xl_file = pd.ExcelFile('CONTROLE ESTAÇÃO.ATUAL.xlsx')
 except FileNotFoundError:
-    print("ERRO: O arquivo 'CONTROLE ESTACAO.xlsx' não foi encontrado. Verifique se o nome está correto e se ele está na mesma pasta do script.")
+    print("ERRO: O arquivo 'CONTROLE ESTAÇÃOA.TUAL.xlsx' não foi encontrado. Verifique se o nome está correto e se ele está na mesma pasta do script.")
     exit()
 
 
@@ -157,7 +157,7 @@ for animal_id in tqdm(animal_ids, desc="Analisando Vacas"):
         'numero_de_estacoes': numero_de_estacoes, 
         'total_prenhezes': total_prenhezes,
         'total_abortos': total_abortos, 
-        'concepcao_por_estação': f"{concepcao_por_estação_num * 100:.1f}%" if pd.notna(concepcao_por_estação_num) else None,
+        'concepcao_por_estação': float(concepcao_por_estação_num * 100) if pd.notna(concepcao_por_estação_num) else None,
         'peso_medio_desmame': peso_medio_desmame, 
         'qtd_machos': qtd_machos, 
         'qtd_femeas': qtd_femeas,
@@ -208,7 +208,7 @@ for nome_aba, df_full in tqdm(dfs.items(), desc="Analisando Estações"):
         'estacao': nome_aba, 'total_registros': len(df),
         'total_concepcoes': situacoes_global.isin(['P', 'AB', 'P2', 'REAB']).sum(),
         'total_abortos': situacoes_global.isin(['AB', 'REAB']).sum(),
-        'taxa_prenhez_geral': f"{taxa_prenhez_geral_num * 100:.1f}%" if pd.notna(taxa_prenhez_geral_num) else None,
+        'taxa_prenhez_geral': float(taxa_prenhez_geral_num * 100) if pd.notna(taxa_prenhez_geral_num) else None,
         'peso_medio_machos_geral': peso_medio_machos_global,
         'peso_medio_femeas_geral': peso_medio_femeas_global,
         'data_media_ia_geral': data_media_geral.strftime('%d-%m-%Y') if pd.notna(data_media_geral) else None,
@@ -229,7 +229,7 @@ for nome_aba, df_full in tqdm(dfs.items(), desc="Analisando Estações"):
             taxa_prot_num = mask_prenhez.sum() / total_prot
             prot_stats_estacao[prot] = {
                 'total': total_prot, 'prenhezes': mask_prenhez.sum(),
-                'taxa': f"{taxa_prot_num * 100:.1f}%" if pd.notna(taxa_prot_num) else None,
+                'taxa': float(taxa_prot_num * 100)  if pd.notna(taxa_prot_num) else None,
                 'abortos': mask_aborto_final.sum()
             }
     estacoes_protocolo_data.append({'estacao': nome_aba, 'prots': prot_stats_estacao})
@@ -259,7 +259,7 @@ for nome_aba, df_full in tqdm(dfs.items(), desc="Analisando Estações"):
             'estacao': nome_aba, 'categoria': cat, 'total_registros_cat': len(df_cat),
             'total_concepcoes_cat': situacoes_cat.isin(['P', 'AB', 'P2', 'REAB']).sum(),
             'total_abortos_cat': situacoes_cat.isin(['AB', 'REAB']).sum(),
-            'taxa_prenhez_cat': f"{taxa_prenhez_cat_num * 100:.1f}%" if pd.notna(taxa_prenhez_cat_num) else None,
+            'taxa_prenhez_cat': float(taxa_prenhez_cat_num * 100) if pd.notna(taxa_prenhez_cat_num) else None,
             'peso_medio_machos_cat': peso_medio_machos_cat,
             'peso_medio_femeas_cat': peso_medio_femeas_cat,
             'data_media_ia_geral_cat': data_media_geral_cat.strftime('%d-%m-%Y') if pd.notna(data_media_geral_cat) else None,
@@ -317,9 +317,7 @@ if not df_estacoes_global.empty:
 
     def criar_grafico_barras(x_data, y_data, titulo, eixo_y_label, caminho_arquivo, is_percent=False):
         plt.figure(figsize=(12, 7))
-        y_data_numeric = y_data
-        if is_percent:
-            y_data_numeric = pd.to_numeric(y_data.str.replace('%', '', regex=False).str.replace(',', '.', regex=False), errors='coerce') / 100
+        y_data_numeric = y_data / 100
         bars = plt.bar(x_data.astype(str), y_data_numeric, color='skyblue')
         plt.title(titulo, fontsize=16)
         plt.ylabel(eixo_y_label, fontsize=12)
