@@ -117,7 +117,6 @@ for animal_id in tqdm(animal_ids, desc="Analisando Vacas"):
             indices_data['HISTÓRICO'], indices_data['SITUAÇÃO'], indices_data['PESO 205'], 
             indices_data['ANIMAL'], indices_data['SEXO'], indices_data['CATEGORIA']
         )
-        print(peso_idx)
         if animal_idx is None: continue
         
         df_data = df_full_data.iloc[1:]
