@@ -1,4 +1,4 @@
-#!/home/henrique/Documentos/Github/analista-de-pranilhas/.venv/bin/python3
+#!/home/henrique/Documents/Github/analista-de-pranilhas/.venv/bin/python3
 
 ##############################################################################
 #
