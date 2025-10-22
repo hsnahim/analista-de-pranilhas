@@ -34,12 +34,24 @@ except ValueError:
     print("Entrada inválida. Analisando todas as abas por padrão.")
 
 # --- Funções Utilitárias ---
+# Função para procurar a posição das colunas
 def get_col_indices(header_row, nomes):
-    indices = {nome: None for nome in nomes}
+    indices = {}
+    
+    nomes_a_buscar = {str(nome).strip().upper() for nome in nomes}
+    
+    nomes_restantes = set(nomes_a_buscar)
+    
     for idx, col_name in enumerate(header_row):
-        nome_col = str(col_name).strip().upper()
-        if nome_col in indices:
-            indices[nome_col] = idx
+        nome_col_header = str(col_name).strip().upper()
+        
+        if nome_col_header in nomes_restantes:
+            indices[nome_col_header] = idx
+            
+            nomes_restantes.remove(nome_col_header)
+            
+            if not nomes_restantes:
+                break
     return indices
 
 # --- Leitura e Carregamento dos Dados ---
