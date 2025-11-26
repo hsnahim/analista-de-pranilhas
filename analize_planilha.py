@@ -7,7 +7,7 @@ import re # Importado para usar expressões regulares na contagem de protocolos
 
 # --- Carregamento do Arquivo Excel ---
 try:
-    xl_file = pd.ExcelFile('CONTROLE ESTAÇÃO.ATUAL.xlsx') 
+    xl_file = pd.ExcelFile('PLANILHA ATUAL.xlsx') 
 except FileNotFoundError:
     print("ERRO: O arquivo 'CONTROLE ESTAÇÃO.ATUAL.xlsx' não foi encontrado. Verifique o nome e o local.")
     exit()
