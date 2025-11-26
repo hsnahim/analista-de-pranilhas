@@ -250,9 +250,9 @@ for nome_aba, df_full in tqdm(dfs.items(), desc="Analisando Estações"):
         if df_full.empty: continue
         # Garante header como Series
         if isinstance(df_full.iloc[0], pd.Series):
-             header_row = df_full.iloc[0].astype(str)
+             header_row = df_full.iloc[0].astype(str).str.upper()
         else:
-             header_row = df_full.iloc[0].values.astype(str)
+             header_row = df_full.iloc[0].values.astype(str).str.upper()
 
         indices = get_col_indices(header_row, ['ANIMAL', 'PESO 205', 'SEXO', 'SITUAÇÃO', 'HISTÓRICO', 'CATEGORIA', 'DATA IA'])
         animal_idx = indices.get('ANIMAL')
@@ -277,10 +277,10 @@ for nome_aba, df_full in tqdm(dfs.items(), desc="Analisando Estações"):
         if df_valid.empty: continue
 
         # --- Cálculos Globais da Estação ---
-        situacoes_global = df_valid.iloc[:, situacao_idx].astype(str)
+        situacoes_global = df_valid.iloc[:, situacao_idx].astype(str).str.upper()
         historicos_estacao = df_valid.iloc[:, historico_idx].astype(str).str.replace(' ', '', regex=False).str.upper()
         
-        taxa_prenhez_geral_num = situacoes_global.isin(['P', 'AB', 'P2', 'REAB']).sum() / len(df_valid) if len(df_valid) > 0 else None
+        taxa_prenhez_geral_num = situacoes_global.str.upper().isin(['P', 'AB', 'P2', 'REAB']).sum() / len(df_valid) if len(df_valid) > 0 else None
         
         peso_medio_machos_global, peso_medio_femeas_global = None, None
         data_media_ia_geral, data_media_ia_machos, data_media_ia_femeas = None, None, None
@@ -300,8 +300,8 @@ for nome_aba, df_full in tqdm(dfs.items(), desc="Analisando Estações"):
 
 
         # --- Novos Cálculos: Totais Brutos de Protocolo (Global) ---
-        total_protocolos_aplicados_global = historicos_estacao.str.contains(r'\d+PROT', regex=True, na=False).sum()
-        total_protocolos_sucesso_global = historicos_estacao.str.upper().str.contains(r'\d+PROT-(?:P|AB|P2)', regex=True, na=False).sum()
+        total_protocolos_aplicados_global = historicos_estacao.str.upper().str.count(r'\d+PROT').sum() 
+        total_protocolos_sucesso_global = historicos_estacao.str.upper().str.contains(r'PROT-(?:P|AB|P2)').sum()
         # --- Fim dos Novos Cálculos ---
 
         estacoes_global_data.append({
@@ -374,8 +374,8 @@ for nome_aba, df_full in tqdm(dfs.items(), desc="Analisando Estações"):
                      data_media_ia_femeas_cat = datas_ia_cat[sexos_datas_cat == 'F'].dropna().mean()
 
             # --- Novos Cálculos: Totais Brutos de Protocolo (por Categoria) ---
-            total_protocolos_aplicados_cat = historicos_cat.str.contains(r'\d+PROT', regex=True, na=False).sum()
-            total_protocolos_sucesso_cat = historicos_cat.str.upper().str.contains(r'\d+PROT-(?:P|AB|P2)', regex=True, na=False).sum()
+            total_protocolos_aplicados_cat = historicos_cat.str.upper().str.count(r'\d+PROT').sum() 
+            total_protocolos_sucesso_cat = historicos_cat.str.upper().str.contains(r'PROT-(?:P|AB|P2)').sum()
             taxa_geral_prot_cat_num = total_protocolos_sucesso_cat / total_protocolos_aplicados_cat if total_protocolos_aplicados_cat > 0 else None
             # --- Fim dos Novos Cálculos ---
 
@@ -402,9 +402,9 @@ for nome_aba, df_full in tqdm(dfs.items(), desc="Analisando Estações"):
                 'total_concepcoes_cat': situacoes_cat.isin(['P', 'AB', 'P2', 'REAB']).sum(),
                 'total_abortos_cat': situacoes_cat.isin(['AB', 'REAB']).sum(),
                 'taxa_prenhez_cat': taxa_prenhez_cat_num, 
-                'total_protocolos_aplicados_cat': total_protocolos_aplicados_cat, # <-- NOVA COLUNA
-                'total_protocolos_sucesso_cat': total_protocolos_sucesso_cat,   # <-- NOVA COLUNA
-                'taxa_geral_protocolos_cat': taxa_geral_prot_cat_num, # <-- NOVA COLUNA (já existia implícita)
+                'total_protocolos_aplicados_cat': total_protocolos_aplicados_cat,
+                'total_protocolos_sucesso_cat': total_protocolos_sucesso_cat,
+                'taxa_geral_protocolos_cat': taxa_geral_prot_cat_num,
                 'peso_medio_machos_cat': peso_medio_machos_cat,
                 'peso_medio_femeas_cat': peso_medio_femeas_cat,
                 'data_media_ia_geral_cat': data_media_geral_cat.strftime('%d-%m-%Y') if pd.notna(data_media_geral_cat) else None,
