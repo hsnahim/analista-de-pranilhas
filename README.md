@@ -26,7 +26,7 @@ O objetivo é fornecer uma visão completa do desempenho reprodutivo e produtivo
 ## Pré-requisitos
 
 -   Python 3.7 ou superior
--   O arquivo `CONTROLE ESTACAO.ATUAL.xlsx` devidamente formatado na mesma pasta do projeto.
+-   O arquivo `PLANILHA ATUAL.xlsx` devidamente formatado na mesma pasta do projeto.
 
 ## Instalação
 
