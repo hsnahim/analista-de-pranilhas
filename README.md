@@ -2,7 +2,7 @@
 
 ## Descrição
 
-Este script em Python foi desenvolvido para automatizar a análise de dados zootécnicos provenientes de planilhas de controle de estação de monta. A ferramenta processa os dados de um arquivo Excel (`CONTROLE ESTACAO.xlsx`), realiza uma série de cálculos complexos e gera um relatório final detalhado em um novo arquivo Excel, além de gráficos para visualização de tendências.
+Este script em Python foi desenvolvido para automatizar a análise de dados zootécnicos provenientes de planilhas de controle de estação de monta. A ferramenta processa os dados de um arquivo Excel (`PLANILHA ATUAL.xlsx`), realiza uma série de cálculos complexos e gera um relatório final detalhado em um novo arquivo Excel, além de gráficos para visualização de tendências.
 
 O objetivo é fornecer uma visão completa do desempenho reprodutivo e produtivo do rebanho, tanto a nível geral (por estação), quanto a nível específico (por categoria de animal e por protocolo de IATF).
 
@@ -58,7 +58,7 @@ O objetivo é fornecer uma visão completa do desempenho reprodutivo e produtivo
 
 ## Estrutura do Arquivo de Entrada
 
-O script espera um arquivo chamado `CONTROLE ESTACAO.xlsx` na mesma pasta. As abas devem estar em ordem cronológica (as mais antigas primeiro, as mais recentes por último).
+O script espera um arquivo chamado `PLANILHA ATUAL.xlsx` na mesma pasta. As abas devem estar em ordem cronológica (as mais antigas primeiro, as mais recentes por último).
 
 As planilhas devem conter as seguintes colunas (os nomes não precisam ser exatos, mas devem ser reconhecíveis):
 
@@ -73,7 +73,7 @@ As planilhas devem conter as seguintes colunas (os nomes não precisam ser exato
 ## Como Usar
 
 1.  Certifique-se de que seu ambiente virtual esteja **ativado**.
-2.  Coloque o arquivo `CONTROLE ESTACAO.xlsx` na mesma pasta que o script `analize_planilha.py`.
+2.  Coloque o arquivo `PLANILHA ATUAL.xlsx` na mesma pasta que o script `analize_planilha.py`.
 3.  Execute o script através do terminal:
     ```bash
     python analize_planilha.py
